@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { pool } = require('./config/db');
+require('./config/initDb'); // Auto-create tables on startup
 
 const app = express();
 const httpServer = createServer(app);
