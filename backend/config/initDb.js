@@ -71,4 +71,22 @@ db.exec(`CREATE TABLE IF NOT EXISTS order_items (
   FOREIGN KEY (menu_item_id) REFERENCES menu_items(id)
 )`);
 
+db.exec(`CREATE TABLE IF NOT EXISTS loyalty_accounts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER UNIQUE,
+  balance INTEGER DEFAULT 0,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)`);
+
+// Seed locations if empty
+const locCount = db.prepare('SELECT COUNT(*) as cnt FROM locations').get();
+if (locCount.cnt === 0) {
+  db.exec(`
+    INSERT INTO locations (name, address) VALUES ('Русанівка', 'Русанівська набережна');
+    INSERT INTO locations (name, address) VALUES ('Березняки', 'вул. Березняківська 6');
+    INSERT INTO locations (name, address) VALUES ('Печерськ', 'біля КНУТД');
+  `);
+  console.log("Локації додані!");
+}
+
 console.log("Таблиці успішно створені!");

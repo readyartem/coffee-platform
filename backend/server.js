@@ -57,21 +57,24 @@ const seedData = async () => {
         const adminCheck = await pool.query("SELECT * FROM users WHERE email='admin@cafe.com'");
         if (adminCheck.rows.length === 0) {
             const hash = await bcrypt.hash('admin123', 10);
-            await pool.query("INSERT INTO locations (name, address) VALUES ('Kyiv Center', 'Khreshchatyk 1')");
             const locRes = await pool.query("SELECT id FROM locations LIMIT 1");
-            const locId = locRes.rows[0].id;
+            const locId = locRes.rows.length > 0 ? locRes.rows[0].id : 1;
             await pool.query("INSERT INTO users (name, email, password_hash, role, location_id) VALUES ('Admin', 'admin@cafe.com', ?, 'admin', ?)", [hash, locId]);
-            await pool.query("INSERT INTO categories (name, sort_order) VALUES ('Кава', 1), ('Десерти', 2)");
-            await pool.query(`INSERT INTO menu_items (title, price, category_id, description, image_url) VALUES 
-              ('Еспресо Black Onyx', 55, 1, 'Подвійний шот преміальної кави темного обсмаження.', '/coffee/espresso.jpg'), 
-              ('Оксамитовий Лате', 75, 1, 'Шовковисте збите молоко з ноткою ванілі.', '/coffee/latte.jpg'), 
-              ('Золота Матча', 90, 1, 'Церемоніальна матча з вівсяним молоком.', '/coffee/matcha.jpg'), 
-              ('Капучино', 65, 1, 'Ідеальний баланс кави та ніжної пінки.', '/coffee/cappuccino.jpg'),
-              ('Флет Вайт', 70, 1, 'Подвійний еспресо з гарячим молоком.', '/coffee/flat_white.jpg'),
-              ('Тірамісу Нуар', 110, 2, 'Класичний італійський десерт з нашим фірмовим еспресо.', '/coffee/tiramisu.jpg'),
-              ('Шоколадний Брауні', 85, 2, 'Насичений шоколадний десерт.', '/coffee/brownie.jpg'),
-              ('Масляний Круасан', 65, 2, 'Класичний французький круасан з маслом.', '/coffee/croissant.jpg')
-            `);
+            
+            const catCheck = await pool.query("SELECT COUNT(*) as cnt FROM categories");
+            if (catCheck.rows[0].cnt === 0) {
+                await pool.query("INSERT INTO categories (name, sort_order) VALUES ('Кава', 1), ('Десерти', 2)");
+                await pool.query(`INSERT INTO menu_items (title, price, category_id, description, image_url) VALUES 
+                  ('Еспресо Black Onyx', 55, 1, 'Подвійний шот преміальної кави темного обсмаження.', '/coffee/espresso.jpg'), 
+                  ('Оксамитовий Лате', 75, 1, 'Шовковисте збите молоко з ноткою ванілі.', '/coffee/latte.jpg'), 
+                  ('Золота Матча', 90, 1, 'Церемоніальна матча з вівсяним молоком.', '/coffee/matcha.jpg'), 
+                  ('Капучино', 65, 1, 'Ідеальний баланс кави та ніжної пінки.', '/coffee/cappuccino.jpg'),
+                  ('Флет Вайт', 70, 1, 'Подвійний еспресо з гарячим молоком.', '/coffee/flat_white.jpg'),
+                  ('Тірамісу Нуар', 110, 2, 'Класичний італійський десерт з нашим фірмовим еспресо.', '/coffee/tiramisu.jpg'),
+                  ('Шоколадний Брауні', 85, 2, 'Насичений шоколадний десерт.', '/coffee/brownie.jpg'),
+                  ('Масляний Круасан', 65, 2, 'Класичний французький круасан з маслом.', '/coffee/croissant.jpg')
+                `);
+            }
             console.log("Mock data seeded.");
         }
     } catch(e) {
