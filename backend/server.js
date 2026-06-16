@@ -12,10 +12,14 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, { cors: { origin: '*' } });
 
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 200 }));
+
+// Health check
+app.get('/', (req, res) => res.json({ status: 'ok', service: 'coffee-platform-api' }));
 
 const JWT_SECRET = 'super-secret-key-for-diploma';
 
