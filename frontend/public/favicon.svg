@@ -1,0 +1,10 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+  path { stroke: black; }
+  @media (prefers-color-scheme: dark) {
+    path { stroke: white; }
+  }
+</style>
+<path d="M18 9.56H6M18 9.56L16.5 23.06H8.25L6 9.56M18 9.56C18 7.9687 17.3679 6.44258 16.2426 5.31736C15.1174 4.19214 13.5913 3.56 12 3.56C10.4087 3.56 8.88258 4.19214 7.75736 5.31736C6.63214 6.44258 6 7.9687 6 9.56M3.75 9.56H20.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11.276 15.56L13.905 2.115C13.9496 1.91557 14.0345 1.72735 14.1544 1.5619C14.2743 1.39644 14.4268 1.25724 14.6025 1.15283C14.7782 1.04842 14.9733 0.981006 15.176 0.954726C15.3786 0.928445 15.5845 0.943852 15.781 1L19.5 2.06M7 15.56H17.333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
